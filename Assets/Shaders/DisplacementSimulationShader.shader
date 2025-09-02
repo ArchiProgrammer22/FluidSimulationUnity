@@ -34,18 +34,15 @@ Shader "Custom/DisplacementSimulationShader_Mobile"
                 half x = prev.r;     
                 half v = prev.g;     
 
-                // модель с осцилляциями
                 half a = -_Stiffness * x - _Damping * v;
                 half v1 = v + a * _DeltaTime;
                 half x1 = x + v1 * _DeltaTime;
 
-                // модель простого затухания
                 half decay = 1.0h - (_DecayFactor * _DeltaTime);
                 decay = max(decay, 0.0h);
                 half x2 = x * decay;
                 half v2 = v * decay;
 
-                // линейный выбор без ветвлений
                 x = lerp(x2, x1, _EnableOscillation);
                 v = lerp(v2, v1, _EnableOscillation);
 
